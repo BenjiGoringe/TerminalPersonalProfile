@@ -14,7 +14,7 @@
                 <div class="buttonGreen" onclick="toggleHeight()"></div>
                 <div class="titleText">benji@my-portfolio: ~</div>
             </div>
-            
+
             <div class="terminalBody" onclick="focusInput()">
                 <div class="textContainer" id="textContainer"></div>
                 <div class="inputContainer">
@@ -74,6 +74,7 @@
             n =  new Date();
             const introText = "Last login: " + n.getDate() + "/" + n.getMonth() + "/" + n.getFullYear() + " at " + n.getHours() + ":" + n.getMinutes() + 
             "\n" + "type 'help' for a list of commands ";
+            applyTheme("dark")
             displayMessage(introText); 
         }
 
@@ -208,7 +209,6 @@
         }
 
         window.onload = initializeChat;
-        window.onload = applyTheme('dark');
 
     </script>
 </body>
