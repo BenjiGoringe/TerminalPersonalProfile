@@ -1,0 +1,220 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family:monospace;
+    color: white;
+    
+}
+
+.mainContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(225deg, #d67200 0%, #6f0000 100%);
+}
+
+.terminalContainer {
+    height: 80vh;
+    width: calc(0.95 * 80vh);
+    position: relative;
+    transition: height 0.3s ease;
+    user-select: none;
+}
+@media (max-width: 768px) {
+    .terminalContainer {
+        width: 90vw;
+        margin-left: 20px;
+        margin-right: 20px;
+        height: 80vh;
+    }
+}
+
+.titleBar {
+    width: 100%;
+    height: 28px;
+    position: absolute;
+    left: 0;
+    opacity: 0.75;
+    background: #BFBBBB;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titleText {
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-family: monospace;
+}
+
+.terminalBody {
+    width: calc(100%);
+    height: calc(100% - 28px);
+    position: absolute;
+    margin-top: 28px;
+
+    opacity: 0.75;
+    background: #1f1f1f;
+
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+
+}
+
+.textContainer {
+    width: calc(100% - 40px);
+    height: auto; 
+    max-height: calc(100% - 60px); 
+    padding-left: 20px;
+    margin-top: 20px;
+    
+    text-align: left;
+    vertical-align: top;
+    white-space: pre-wrap;
+    overflow-x: hidden;
+
+    color: white;
+    opacity: 90%;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    font-size: 13px;
+}
+.textContainer::-webkit-scrollbar { 
+    display: none;
+}
+
+.buttonGreen, .buttonRed {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 7px;
+    border-radius: 20px;
+}
+
+.buttonRed {
+    left: 10px;
+    background: #FF605C;
+}
+
+.buttonGreen {
+    left: 33px;
+    background: #00CA4E;
+}
+
+.buttonShow {
+    display: none;
+    width: 60px;
+    height: 60px;
+    background-image: url('terminalBlack.png');
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inputContainer {
+    width: 100%;
+    height: 70px;
+    max-height: 70px;
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.prefix {
+    margin-right: 6px;
+    font-family: monospace;
+    padding-left: 20px;
+    white-space: nowrap;
+    color: white;
+
+}
+
+.inputField {
+    color: white;
+    flex: 1;
+    height: 100%;
+    width: calc(100% - 40px);
+    color: white;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: monospace;
+    font-size: 13px;
+    resize: none;
+    overflow-y: hidden;
+    
+    padding-left: 4;
+    margin-top: -2px;
+    margin-right: 20px;
+}
+
+/* Light Theme */
+.light-theme .mainContainer {
+    background: rgb(179, 179, 179);
+}
+.light-theme .terminalBody {
+    background: #f5f5f5;
+}
+.light-theme .textContainer,
+.light-theme .inputField,
+.light-theme .titleText,
+.light-theme .prefix {
+    color: black; /* Matrix green */
+}
+.light-theme .titleBar {
+    background: grey;
+}
+
+/* Dark Theme */
+.dark-theme .mainContainer {
+    background: rgb(21, 21, 21);
+}
+.dark-theme .titleBar {
+    background: rgb(37, 37, 37);
+}
+.dark-theme .buttonShow {
+    background-image: url('terminalWhite.png');
+}
+
+/* Ubuntu Theme */
+.ubuntu-theme .mainContainer {
+    background: linear-gradient(225deg, #d67200 0%, #6f0000 100%);
+}
+.ubuntu-theme .titleBar {
+    background: #BFBBBB;
+}
+.ubuntu-theme .buttonShow {
+    background-image: url('terminalBlack.png');
+}
+.ubuntu-theme .titleText {
+    color: rgb(47, 47, 47);
+}
+
+/* Matrix Theme */
+.matrix-theme .mainContainer {
+    background: black;
+}
+.matrix-theme .titleBar {
+    background: rgb(22, 22, 22);
+}
+.matrix-theme .textContainer,
+.matrix-theme .inputField,
+.matrix-theme .titleText,
+.matrix-theme .prefix {
+    color: #00CA4E;
+}
+.matrix-theme .buttonShow {
+    background-image: url('terminalGreen.png');
+}

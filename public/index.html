@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benji Goringe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mainContainer">
+        <div class="terminalContainer">
+            <div class="titleBar">
+                <div class="buttonRed" onclick="toggleTerminal()"></div>
+                <div class="buttonGreen" onclick="toggleHeight()"></div>
+                <div class="titleText">benji@my-portfolio: ~</div>
+            </div>
+            
+            <div class="terminalBody" onclick="focusInput()">
+                <div class="textContainer" id="textContainer"></div>
+                <div class="inputContainer">
+                    <div class="inputContainer">
+                        <div class="prefix">benji@my-portfolio: $</div>
+                        <textarea class="inputField" id="inputField" placeholder="" onkeypress="checkEnter(event)"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="buttonShow" onclick="toggleTerminal()">
+    </div>
+
+    <script>
+        function focusInput() {
+            const inputField = document.getElementById('inputField');
+            inputField.focus();
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function applyTheme(theme) {
+            document.body.className = `${theme}-theme`;
+        }
+        
+        function toggleTerminal() {
+            const terminalContainer = document.querySelector('.terminalContainer');
+            const showButton = document.querySelector('.buttonShow');
+
+            if (terminalContainer.style.display === 'none') {
+                terminalContainer.style.display = 'block';
+                showButton.style.display = 'none';
+                inputField.focus();
+            } else {
+                terminalContainer.style.display = 'none';
+                showButton.style.display = 'block';
+            }
+        }
+
+        function toggleHeight() {
+            const terminalContainer = document.querySelector('.terminalContainer');
+            const currentHeight = terminalContainer.style.height;
+            terminalContainer.style.height = (currentHeight === '40vh' || currentHeight === '') ? '80vh' : '40vh';
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                sendMessage(); 
+            }
+        }
+
+        function initializeChat() {
+            n =  new Date();
+            const introText = "Last login: " + n.getDate() + "/" + n.getMonth() + "/" + n.getFullYear() + " at " + n.getHours() + ":" + n.getMinutes() + 
+            "\n" + "type 'help' for a list of commands ";
+            displayMessage(introText); 
+        }
+
+        async function sendMessage() {
+            const inputField = document.getElementById('inputField');
+            const message = inputField.value.trim();
+
+            if (message) {
+                const formattedMessage = `benji@my-portfolio: $ ${message}`;
+                displayMessage(formattedMessage);
+                inputField.value = '';
+                
+                if (message === 'help') {
+                    displayMessage(" ")
+                    displayMessage("///////////////////////////////////////////////////////");
+                    await sleep (50);
+                    displayMessage("//  clear         --  clears the terminal            //");
+                    await sleep (50);
+                    displayMessage("///////////////////////////////////////////////////////");
+                    await sleep (50);
+                    displayMessage("//  get github    --  returns a link to my GitHub    //");
+                    await sleep (50);
+                    displayMessage("///////////////////////////////////////////////////////");
+                    await sleep (50);
+                    displayMessage("//  get linkedin  --  returns a link to my LinkedIn  //");
+                    await sleep (50);
+                    displayMessage("///////////////////////////////////////////////////////");
+                    await sleep (50);
+                    displayMessage("//  help          --  returns a list of commands     //");
+                    await sleep (50);
+                    displayMessage("///////////////////////////////////////////////////////");
+                    await sleep (50);
+                    displayMessage("//  themes        --  change terminal theme          //");
+                    await sleep (50);
+                    displayMessage("///////////////////////////////////////////////////////");
+                    displayMessage(" ")
+                    return
+                }
+
+                if (message === 'clear') {
+                    clearTerminal();
+                    return;
+                } else if (message === 'get github') {
+                    displayMessage("Here is my GitHub: LINK", "https://github.com/BenjiGoringe");
+                    return;
+                } else if (message === 'get linkedin') {
+                    displayMessage("Here is my LinkedIn: LINK", "https://www.linkedin.com/in/benji-goringe-3b828b1bb/");
+                    return;
+                } else if (message === 'themes') {
+                    displayMessage(" ")
+                    displayMessage("//////////////");
+                    await sleep (50);
+                    displayMessage("//  light   //");
+                    await sleep (50);
+                    displayMessage("//////////////");
+                    await sleep (50);
+                    displayMessage("//  dark    //");
+                    await sleep (50);
+                    displayMessage("//////////////");
+                    await sleep (50);
+                    displayMessage("//  ubuntu  //");
+                    await sleep (50);
+                    displayMessage("//////////////");
+                    await sleep (50);
+                    displayMessage("//  matrix  //");
+                    await sleep (50);
+                    displayMessage("//////////////");
+                    displayMessage(" ")
+                    return
+                } else if (['light', 'dark', 'ubuntu', 'matrix'].includes(message)) {
+                    applyTheme(message);
+                    displayMessage(`Theme changed to ${message}.`);
+                    return;
+                }
+                displayMessage("");
+            }
+        }
+
+        function clearTerminal() {
+            const textContainer = document.getElementById('textContainer');
+            const introText = textContainer.firstChild ? textContainer.firstChild.textContent : '';
+            
+            while (textContainer.firstChild) {
+                textContainer.removeChild(textContainer.firstChild);
+            }
+
+            if (introText) {
+                displayMessage(introText);
+            }
+        }
+
+        function displayMessage(message, link = null) {
+            const textContainer = document.getElementById('textContainer');
+            const maxLineLength = 70;
+            const messageElement = document.createElement('div');
+
+            // If link is not null
+            if (link) {
+                const parts = message.split("LINK");
+                messageElement.textContent = parts[0];
+
+                const linkElement = document.createElement('a');
+                linkElement.href = link;
+                linkElement.textContent = "LINK";
+                linkElement.target = '_blank';
+                linkElement.style.color = '#4ea8fc';
+                linkElement.style.textDecoration = 'underline';
+
+                messageElement.appendChild(linkElement);
+
+                if (parts[1]) {
+                    messageElement.appendChild(document.createTextNode(parts[1]));
+                }
+
+            // If link is null
+            } else {
+                while (message.length > maxLineLength) {
+                    const line = message.substring(0, maxLineLength);
+                    const lineElement = document.createElement('div');
+                    lineElement.textContent = line;
+                    textContainer.appendChild(lineElement);
+                    message = message.substring(maxLineLength);
+                }
+
+                if (message.length > 0) {
+                    messageElement.textContent = message;
+                }
+            }
+
+            textContainer.appendChild(messageElement);
+            textContainer.scrollTop = textContainer.scrollHeight;
+        }
+
+        window.onload = initializeChat;
+        window.onload = applyTheme('dark');
+
+    </script>
+</body>
+</html>
